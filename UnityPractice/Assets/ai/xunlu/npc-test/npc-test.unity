@@ -621,6 +621,7 @@ MonoBehaviour:
   detectionDistance: 100
   detectionAngle: 20
   detectionAngleMax: 60
+  isShowDetectionRange: 0
 --- !u!1 &1593832625
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,7 +915,7 @@ GameObject:
   - component: {fileID: 2001783985}
   m_Layer: 0
   m_Name: Cube (4)
-  m_TagString: Buildings
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 40

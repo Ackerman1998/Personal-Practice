@@ -9,6 +9,8 @@ public class NpcRayTrigger : MonoBehaviour
     public float detectionAngleMax = 60f;
     RaycastHit raycastHitCenter;
     Ray rayCenter;
+    Ray rayRight;
+    Ray rayLeft;
     public bool isShowDetectionRange = false;
     private void Awake()
     {
@@ -17,36 +19,50 @@ public class NpcRayTrigger : MonoBehaviour
     private void Update()
     {
         //float xx = Mathf.Sqrt(2) / 2f;
-        //Vector3 right = ((transform.position + Vector3.Normalize(Vector3.Lerp(transform.forward, transform.right, 0.6f)) * detectionDistance));
-        //Vector3 left = (transform.position + Vector3.Normalize(Vector3.Lerp(transform.forward, -transform.right, 0.6f)) * detectionDistance);
+        Vector3 rightXX = Vector3.Lerp(transform.forward, transform.right, 0.6f);
+        Vector3 leftXX = Vector3.Lerp(transform.forward, -transform.right, 0.6f);
+        Debug.Log("rightXX="+ rightXX);
+        Debug.Log("leftXX=" + leftXX);
+        Vector3 right = (transform.position + Vector3.Normalize( new Vector3(rightXX.x,0, rightXX.z) * detectionDistance));
+        Vector3 left = (transform.position + Vector3.Normalize(new Vector3(leftXX.x,0, leftXX.z) * detectionDistance));
         Vector3 endCenter = (transform.position + (transform.forward) * detectionDistance);
         //Debug.DrawLine(transform.position, endCenter);
 
-        //Ray rayRight = new Ray(transform.position, right);
-        //Ray rayLeft = new Ray(transform.position, left);
+        rayRight = new Ray(transform.position, right- transform.position);
+        rayLeft = new Ray(transform.position, left- transform.position);
         rayCenter = new Ray(transform.position, endCenter);
+        RayCastCom(rayCenter, endCenter);
+        RayCastCom(rayRight, right);
+        RayCastCom(rayLeft, left);
+        Debug.DrawLine(transform.position, right, Color.green);
 
-        
-        if (Physics.Raycast(rayCenter,out raycastHitCenter,100f)) {
-            if (raycastHitCenter.collider.tag=="Buildings") {
-                Debug.DrawLine(transform.position, raycastHitCenter.point,Color.red);
-                return;
-            }
-            else {
-                Debug.LogError("collider player");
-                Debug.DrawLine(transform.position, endCenter, Color.gray);
-                return;
-            }
-        }
-        Debug.DrawLine(transform.position, endCenter, Color.green);
+
+        //Debug.DrawLine(transform.position, endCenter, Color.green);
         if (isShowDetectionRange) {
             ShowDetectionRangeMesh();
         }
         
     }
+    private void RayCastCom(Ray ray,Vector3 end) {
+        if (Physics.Raycast(ray, out raycastHitCenter, detectionDistance))
+        {
+            if (raycastHitCenter.collider.tag == "Buildings")
+            {
+                Debug.DrawLine(transform.position, raycastHitCenter.point, Color.red);
+                return;
+            }
+            else
+            {
+                Debug.LogError("collider player");
+                Debug.DrawLine(transform.position, end, Color.gray);
+                return;
+            }
+        }
+        Debug.DrawLine(transform.position,  end, Color.green);
+    }
     //绘制一个攻击范围的mesh，并渲染成半透明蓝色。
     private void ShowDetectionRangeMesh() { 
-    
+        
     }
     private void OnDrawGizmos()
     {

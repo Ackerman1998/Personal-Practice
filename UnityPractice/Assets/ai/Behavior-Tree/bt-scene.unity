@@ -267,7 +267,7 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: 
+      JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"me","IsShared":true,"BooleanmValue":true}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -276,6 +276,6 @@ MonoBehaviour:
         unityObjects: []
         byteData: 
         byteDataArray: 
-      Version: 
+      Version: 1.7
   gizmoViewMode: 2
   showBehaviorDesignerGizmo: 1
